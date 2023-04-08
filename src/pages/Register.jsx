@@ -21,7 +21,7 @@ function Register() {
         e.preventDefault()
     }
 
-  return <>
+  return <div className="container">
   <section className="heading">
     <h1>
         <FaUser />Register
@@ -62,7 +62,7 @@ function Register() {
         
     </form>
   </section>
-  </>
+  </div>
 }
 
 export default Register
