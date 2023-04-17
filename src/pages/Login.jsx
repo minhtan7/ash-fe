@@ -20,6 +20,7 @@ function Login() {
     const onSubmit = async (e) => {
         e.preventDefault();
         login(formData)
+        console.log(formData)
     }
 
     return <div className="container">
