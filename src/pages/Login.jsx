@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { FaSignInAlt } from "react-icons/fa";
+import { authContext } from "../context/authContext";
 
 function Login() {
     const [formData, setFormData] = useState({
-        email:'',
-        password:''
+        email: '',
+        password: ''
     })
+    const { login } = useContext(authContext)
 
-    const { email, password} = formData;
+    const { email, password } = formData;
 
     const onChange = (e) => {
         setFormData((prevState) => ({
@@ -15,41 +17,41 @@ function Login() {
             [e.target.name]: e.target.value,
         }))
     }
-    const onSubmit = (e) => {
-        e.preventDefault()
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        login(formData)
     }
 
-  return <>
-  <section className="heading">
-    <h1>
-        <FaSignInAlt />Login
-    </h1>
-    <p>Please sign in your account</p>
-  </section>
+    return <div className="container">
+        <section className="heading">
+            <h1>
+                <FaSignInAlt />Login
+            </h1>
+            <p>Please sign in your account</p>
+        </section>
 
-  <section className="form">
-    <form onSubmit={onSubmit}></form>
-    <form >
+        <section className="form">
+            <form onSubmit={onSubmit}>
 
-        <div className="form-group">
-            <input type="text" className="form-control" id="email"
-            name="email" value={email} placeholder='Enter your email'
-            onChange={onChange}/>
-        </div>
+                <div className="form-group">
+                    <input type="text" className="form-control" id="email"
+                        name="email" value={email} placeholder='Enter your email'
+                        onChange={onChange} />
+                </div>
 
-        <div className="form-group">
-            <input type="text" className="form-control" id="password"
-            name="password" value={password} placeholder='Enter your password'
-            onChange={onChange}/>
-        </div>
+                <div className="form-group">
+                    <input type="text" className="form-control" id="password"
+                        name="password" value={password} placeholder='Enter your password'
+                        onChange={onChange} />
+                </div>
 
-        <div className="form-group">
-            <button type="submit" className="btn btn-block">Sign in </button>
-        </div>
+                <div className="form-group">
+                    <button type="submit" className="btn btn-block">Sign in </button>
+                </div>
 
-    </form>
-  </section>
-  </>
+            </form>
+        </section>
+    </div>
 }
 
 export default Login
