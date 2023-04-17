@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-
+import './Dashboard.css'
 import cardData from './cardData.json'
 import { FaPlus, FaSearch, FaStar } from 'react-icons/fa'
 import axios from 'axios'
@@ -13,11 +13,11 @@ const TYPES = {
 }
 
 const FACTIONS = {
-  roman: "red",
-  viking: "black",
-  spartan: "blue",
-  egyptian: "yellow",
-  threekd: "green"
+  roman:"red", 
+  viking:"black", 
+  spartan:"blue", 
+  egyptian:"yellow", 
+  threekd:"green"
 }
 
 function Dashboard() {
@@ -35,8 +35,8 @@ function Dashboard() {
   useEffect(() => {
     const fetchCards = async () => {
       let url = `${process.env.REACT_APP_BACKEND_URL}/cards?page=${page}&limit=9`
-      if (category) {
-        url += `&category=${category}`
+      if(category) {
+        url+= `&category=${category}`
       }
       if (star) {
         url += `&star=${star}`
@@ -44,7 +44,6 @@ function Dashboard() {
       if (selectedType) {
         url += `&type=${selectedType}`
       }
-
       console.log(url)
       const res = await fetch(url)
       const data = await res.json()
@@ -52,11 +51,11 @@ function Dashboard() {
       setCards(data.data.cards)
     }
     fetchCards()
-  }, [page, category, selectedType, star])
+  }, [page, category, selectedType, star ])
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const fetchCards = async () => {
+     const fetchCards = async () => {
       let url = `${process.env.REACT_APP_BACKEND_URL}/cards?page=${page}&limit=9`
       if (searchValue) {
         url += `&name=${searchValue}`
@@ -74,8 +73,8 @@ function Dashboard() {
   const handleCat = cat => setCategory(cat)
   const handleStar = star => setStar(star)
   const handleChange = e => setSearchValue(e.target.value)
-  const handleShowOpenPack = () => setShowOpenPack(!showOpenPack)
-  const handleOpenPack = async (faction) => {
+  const handleShowOpenPack =  ()=> setShowOpenPack(!showOpenPack)
+  const handleOpenPack = async(faction)=>{
     try {
       const res = await api.get(`/cards/packOpening/${faction}`)
       console.log(res)
@@ -83,9 +82,9 @@ function Dashboard() {
       console.log(error)
     }
   }
-  const handleAddToDeck = async (card) => {
+  const handleAddToDeck = async (card)=>{
     try {
-      const res = await api.post("/cards/addToDeck", { cardId: card._id })
+      const res = await api.post("/cards/addToDeck", {cardId:card._id})
       console.log(res)
     } catch (error) {
       console.log(error)

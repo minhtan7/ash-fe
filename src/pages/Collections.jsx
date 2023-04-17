@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-
+import './Dashboard.css'
 import cardData from './cardData.json'
 import { FaPlus, FaSearch, FaStar } from 'react-icons/fa'
 import axios from 'axios'
@@ -13,11 +13,11 @@ const TYPES = {
 }
 
 const FACTIONS = {
-  roman: "red",
-  viking: "black",
-  spartan: "blue",
-  egyptian: "yellow",
-  threekd: "green"
+  roman:"red", 
+  viking:"black", 
+  spartan:"blue", 
+  egyptian:"yellow", 
+  threekd:"green"
 }
 
 function Collections() {
@@ -44,7 +44,6 @@ function Collections() {
       if (selectedType) {
         url += `&type=${selectedType}`
       }
-
       console.log(url)
       const res = await fetch(url)
       const data = await res.json()
