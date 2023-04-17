@@ -20,7 +20,7 @@ const FACTIONS = {
   threekd:"green"
 }
 
-function Dashboard() {
+function Collections() {
   const [cards, setCards] = useState([])
   const [page, setPage] = useState(1)
   const [selectedType, setSelectedType] = useState("")
@@ -93,29 +93,10 @@ function Dashboard() {
   }
   return (
     <div id="dashboard" className="container">
-      <h1 className='mb-5'>
+      <h1 className='mb-2'>
         <center> Card/Deck Management </center>
       </h1>
-      <div>
-        <button 
-        className='me-2 mb-3 rounded bg-white border border-dark py-2 px-4 hover-shadow'
-        onClick={handleShowOpenPack}
-        >
-          Open pack
-        </button>
-        { showOpenPack && 
-        <div>
-          {Object.keys(FACTIONS).map(faction => (
-            <button style={{color: FACTIONS[faction], border:`1px solid ${FACTIONS[faction]}`}}
-              className='py-1 px-2  rounded bg-light me-2'
-              onClick={()=>handleOpenPack(faction)}
-            >
-              {faction}
-            </button>
-          ))}
-        </div>}
-      </div>
-      <hr/>
+      <hr className='mb-5'/>
       <div className='mb-4'>
         <form onSubmit={handleSubmit} className='row '>
           <div className='col-3 row flex-row me-3'>
@@ -195,4 +176,4 @@ function Dashboard() {
 
 }
 
-export default Dashboard
+export default Collections

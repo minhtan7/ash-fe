@@ -1,13 +1,13 @@
 import { useContext } from 'react'
 import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { authContext } from '../context/authContext'
 
 function Header() {
     const { user, logout } = useContext(authContext)
-
+    const navigate = useNavigate()
     const handleLogout = () => {
-        logout();
+        logout(()=> navigate("/"));
     }
 
     return (
