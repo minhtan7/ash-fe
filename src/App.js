@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 // Importing React Router libraries
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Importing page components
 import Dashboard from './pages/Dashboard';
@@ -10,6 +11,8 @@ import Register from './pages/Register';
 import AuthProvider from './context/authContext';
 import Home from "./pages/Home"
 import MainLayout from './component/layout';
+import AuthRequire from "./component/AuthRequire"
+import Collections from './pages/Collections';
 
 function App() {
   // Using the useEffect hook to fetch data from the server on component mount
@@ -26,10 +29,17 @@ function App() {
       <Router>
         <Routes>
           <Route path='/' element={<MainLayout />}>
-            <Route path='/' element={<Dashboard />} />
+            <Route path='/' element={<Home />} />
+            <Route path='/collections' element={<Collections />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
-            <Route path='/signed' element={<Home />} />
+            <Route path='/dashboard'
+              element={
+                // <AuthRequire>
+                <Dashboard />
+                // </AuthRequire>
+              }
+            />
           </Route>
         </Routes>
       </Router>

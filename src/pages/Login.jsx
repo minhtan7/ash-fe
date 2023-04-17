@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react"
 import { FaSignInAlt } from "react-icons/fa";
 import { authContext } from "../context/authContext";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
     const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ function Login() {
     const { login } = useContext(authContext)
 
     const { email, password } = formData;
+    const navigate = useNavigate()
 
     const onChange = (e) => {
         setFormData((prevState) => ({
@@ -19,8 +21,7 @@ function Login() {
     }
     const onSubmit = async (e) => {
         e.preventDefault();
-        login(formData)
-        console.log(formData)
+        login(formData, () => navigate("/dashboard"))
     }
 
     return <div className="container">

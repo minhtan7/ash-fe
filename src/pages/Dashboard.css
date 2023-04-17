@@ -1,0 +1,46 @@
+#dashboard img {
+  max-width: 100%;
+  max-height: 100%;
+  float: center;
+  transition-duration: 0.3s;
+}
+
+#dashboard img:hover {
+  box-shadow: 5px 5px 10px 10px rgb(181, 181, 181);
+  transition-duration: 0.3s;
+}
+
+.card {
+  width: 300px;
+}
+.star{
+  cursor:pointer
+}
+.star:hover svg{
+  color: #fd7e14
+}
+.addBtn{
+  background-color: black;
+  opacity:0;
+  transition-duration: 0.3s;
+}
+.addBtn:hover{
+  opacity:0.6;
+  transition-duration: 0.7s;
+  
+}
+.addBtn button{
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  background-color: white;
+  transition-duration: 0.7s;
+}
+.addBtn svg{
+  color: black;
+  cursor: pointer;
+}
+.addBtn:hover button{
+  transition-duration: 0.7s;
+  transform: translateY(-10px);
+}
