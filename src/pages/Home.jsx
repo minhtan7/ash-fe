@@ -1,11 +1,47 @@
-import { useState, useEffect } from "react"
-import { FaUser } from "react-icons/fa";
+
+import "../home.css";
+import FireVideo from "../Fire.mp4";
+import CardsSound from "../cards.mp3";
+import SwordSound from "../sword.mp3";
+import CracklingSound from "../Crackling.mp3";
+import KeyIcon from "../key.svg";
+import {Link} from 'react-router-dom'
 
 const Home = ()=>{
+    const playSound = (soundUrl) => {
+        const audio = new Audio(soundUrl);
+        audio.play();
+      };
+      //playSound(CracklingSound);
+
     return (
-        <div className="container">
-        <h1>home</h1>
-        </div>
+        <div className="App">
+      <h1>EMPIRES ASCENSION</h1>
+      <div className="bg-container">
+        <video className="bg" autoPlay muted loop>
+          <source src={FireVideo} type="video/mp4" />
+        </video>
+      </div>
+      <Link to = '/play'>
+      <button className="button button1" onClick={() => playSound(SwordSound)}>
+        PLAY
+      </button>
+      </Link>
+      <Link to = '/Dashboard'>
+      <button className="button button2" onClick={() => 
+        playSound(CardsSound)
+        
+        }>
+        DECKS
+      </button>
+      </Link>
+      <button className="button button3">PACK OPENING</button>
+      <Link to = '/Login'>
+      <button className="button button4">
+        <img src={KeyIcon} alt="Login" /> LOGIN
+      </button>
+      </Link>
+    </div>
     )
 }
 

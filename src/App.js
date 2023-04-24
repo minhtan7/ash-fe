@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import AuthProvider from './context/authContext';
 import Home from "./pages/Home"
+import Play from "./pages/Play"
 import MainLayout from './component/layout';
 import AuthRequire from "./component/AuthRequire"
 import Collections from './pages/Collections';
@@ -39,7 +40,9 @@ function App() {
                 <Dashboard />
                 // </AuthRequire>
               }
+              
             />
+            <Route path = '/play' element={<Play />} />
           </Route>
         </Routes>
       </Router>
