@@ -29,8 +29,9 @@ function App() {
       {/* Wrapping the component tree in the AuthProvider context provider*/}
       <Router>
         <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/play' element={<Play />} />
           <Route path='/' element={<MainLayout />}>
-            <Route path='/' element={<Home />} />
             <Route path='/collections' element={<Collections />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
@@ -40,9 +41,9 @@ function App() {
                 <Dashboard />
                 // </AuthRequire>
               }
-              
+
             />
-            <Route path = '/play' element={<Play />} />
+
           </Route>
         </Routes>
       </Router>
