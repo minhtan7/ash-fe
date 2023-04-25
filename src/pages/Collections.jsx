@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './Dashboard.css'
+
 import cardData from './cardData.json'
 import { FaPlus, FaSearch, FaStar } from 'react-icons/fa'
 import axios from 'axios'
@@ -13,11 +13,11 @@ const TYPES = {
 }
 
 const FACTIONS = {
-  roman:"red", 
-  viking:"black", 
-  spartan:"blue", 
-  egyptian:"yellow", 
-  threekd:"green"
+  roman: "red",
+  viking: "black",
+  spartan: "blue",
+  egyptian: "yellow",
+  threekd: "green"
 }
 
 function Collections() {
@@ -35,8 +35,8 @@ function Collections() {
   useEffect(() => {
     const fetchCards = async () => {
       let url = `${process.env.REACT_APP_BACKEND_URL}/cards?page=${page}&limit=9`
-      if(category) {
-        url+= `&category=${category}`
+      if (category) {
+        url += `&category=${category}`
       }
       if (star) {
         url += `&star=${star}`
@@ -44,7 +44,7 @@ function Collections() {
       if (selectedType) {
         url += `&type=${selectedType}`
       }
-      
+
       console.log(url)
       const res = await fetch(url)
       const data = await res.json()
@@ -52,11 +52,11 @@ function Collections() {
       setCards(data.data.cards)
     }
     fetchCards()
-  }, [page, category, selectedType, star ])
+  }, [page, category, selectedType, star])
 
   const handleSubmit = (e) => {
     e.preventDefault()
-     const fetchCards = async () => {
+    const fetchCards = async () => {
       let url = `${process.env.REACT_APP_BACKEND_URL}/cards?page=${page}&limit=9`
       if (searchValue) {
         url += `&name=${searchValue}`
@@ -74,8 +74,8 @@ function Collections() {
   const handleCat = cat => setCategory(cat)
   const handleStar = star => setStar(star)
   const handleChange = e => setSearchValue(e.target.value)
-  const handleShowOpenPack =  ()=> setShowOpenPack(!showOpenPack)
-  const handleOpenPack = async(faction)=>{
+  const handleShowOpenPack = () => setShowOpenPack(!showOpenPack)
+  const handleOpenPack = async (faction) => {
     try {
       const res = await api.get(`/cards/packOpening/${faction}`)
       console.log(res)
@@ -83,9 +83,9 @@ function Collections() {
       console.log(error)
     }
   }
-  const handleAddToDeck = async (card)=>{
+  const handleAddToDeck = async (card) => {
     try {
-      const res = await api.post("/cards/addToDeck", {cardId:card._id})
+      const res = await api.post("/cards/addToDeck", { cardId: card._id })
       console.log(res)
     } catch (error) {
       console.log(error)
@@ -96,7 +96,7 @@ function Collections() {
       <h1 className='mb-2'>
         <center> Card/Deck Management </center>
       </h1>
-      <hr className='mb-5'/>
+      <hr className='mb-5' />
       <div className='mb-4'>
         <form onSubmit={handleSubmit} className='row '>
           <div className='col-3 row flex-row me-3'>
@@ -104,19 +104,19 @@ function Collections() {
               <span
                 onClick={() => handleStar(s)}
                 className='col-3 me-2 d-flex flex-row justify-content-center align-items-center star'
-                style={{color: star===s? "#fd7e14":"black"}}
-                >
+                style={{ color: star === s ? "#fd7e14" : "black" }}
+              >
                 {s} <FaStar className='ms-1' />
               </span>
             ))}
-            <div className='position-relative' style={{height:"fit-content"}}>
-              <input placeholder='search' 
-              className='py-2 px-3'
-              onChange={handleChange}
+            <div className='position-relative' style={{ height: "fit-content" }}>
+              <input placeholder='search'
+                className='py-2 px-3'
+                onChange={handleChange}
               />
-              <FaSearch 
-              onClick={()=>setSearchSubmit(!searchSubmit)}
-               className='position-absolute top-50 end-0 translate-middle'/>
+              <FaSearch
+                onClick={() => setSearchSubmit(!searchSubmit)}
+                className='position-absolute top-50 end-0 translate-middle' />
             </div>
 
           </div>
@@ -158,12 +158,12 @@ function Collections() {
               <div className='w-100 h-100 position-absolute 
                 d-flex justify-content-center align-items-center
                 addBtn
-              ' 
+              '
               >
-                <button className="border-0" 
-                  onClick={()=>handleAddToDeck(card)}
+                <button className="border-0"
+                  onClick={() => handleAddToDeck(card)}
                 >
-                  <FaPlus className='position'/>
+                  <FaPlus className='position' />
                 </button>
               </div>
             </div>

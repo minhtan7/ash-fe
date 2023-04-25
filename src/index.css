@@ -1,5 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
+#dashboard img {
+  max-width: 100%;
+  max-height: 100%;
+  float: center;
+  transition-duration: 0.3s;
+}
+
+#dashboard img:hover {
+  box-shadow: 5px 5px 10px 10px rgb(181, 181, 181);
+  transition-duration: 0.3s;
+}
 
 
 * {
@@ -15,7 +26,7 @@ body {
 
 a {
   text-decoration: none;
-  color: #000;
+  color: #dfaa5b;
 }
 
 p {
@@ -201,6 +212,169 @@ h3 {
   border-radius: 50%;
   animation: spin 1.2s linear infinite;
 }
+/* home part */
+.App {
+  position: relative;
+  height: 100vh; 
+}
+
+.home_title {
+  text-align: center;
+  font-size: 70px;
+  color: lightgrey;
+  font-family: "Mantinia", serif;
+}
+.main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.bg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.bg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  transform: translate(-50%, -50%);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: calc(0% - 400px);
+}
+
+.button1,
+.button2,
+.button3 {
+  font-family: "Mantinia", serif;
+  padding: 16px;
+  border-radius: 16px;
+  width: 300px;
+  height: 100px;
+  opacity: 0.5;
+  margin: 0 20px; 
+}
+
+.button1:active,
+.button2:active,
+.button3:active {
+  background-color: white;
+  color: black;
+  border: 2px solid #4caf50;
+  z-index: 1;
+}
+
+.button1,
+.button2,
+.button3 {
+  z-index: 10;
+}
+/* 
+home page css files finish */
+
+
+/* play page css */
+.game-mat-wrapper {
+  background-image: var(--background-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+.game-mat-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: var(--background-image);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.game-mat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ margin-top: 15%;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.card-slot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 120px;
+  border: 1px solid rgba(85, 85, 85, 0.7);
+  background-color: rgba(51, 51, 51, 0.7);
+  margin: 0 5px;
+}
+
+.player {
+  display: flex;
+}
+
+.deck-graveyard {
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px;
+}
+
+
+.resource-counter {
+   display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  font-size: 24px;
+  color: white;
+  margin-bottom: 5px;
+
+  background-color: rgba(85, 85, 85, 0.7);
+  border: 1px solid #333;
+  border-radius: 50%;
+  padding: 10px;
+  width: 60px;
+  height: 60px;
+}
+
+/* end play page css */
+
 
 @keyframes spin {
   0% {
