@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import './Dashboard.css'
-import cardData from './cardData.json'
+
 import { FaPlus, FaSearch, FaStar } from 'react-icons/fa'
 import axios from 'axios'
 import api from '../apiService'
+import background from "./resourse/dashboardResource/dashboardBackground.png";
 
 // const CATEGORIES = ["soldier", "missle", "defense", "resource", "leader"]
 const TYPES = {
@@ -13,14 +13,15 @@ const TYPES = {
 }
 
 const FACTIONS = {
-  roman:"red", 
-  viking:"black", 
-  spartan:"blue", 
-  egyptian:"yellow", 
-  threekd:"green"
+  roman: "red",
+  viking: "black",
+  spartan: "blue",
+  egyptian: "yellow",
+  threekd: "green"
 }
 
 function Dashboard() {
+
   const [cards, setCards] = useState([])
   const [page, setPage] = useState(1)
   const [selectedType, setSelectedType] = useState("")
@@ -35,8 +36,8 @@ function Dashboard() {
   useEffect(() => {
     const fetchCards = async () => {
       let url = `${process.env.REACT_APP_BACKEND_URL}/cards?page=${page}&limit=9`
-      if(category) {
-        url+= `&category=${category}`
+      if (category) {
+        url += `&category=${category}`
       }
       if (star) {
         url += `&star=${star}`
@@ -51,11 +52,11 @@ function Dashboard() {
       setCards(data.data.cards)
     }
     fetchCards()
-  }, [page, category, selectedType, star ])
+  }, [page, category, selectedType, star])
 
   const handleSubmit = (e) => {
     e.preventDefault()
-     const fetchCards = async () => {
+    const fetchCards = async () => {
       let url = `${process.env.REACT_APP_BACKEND_URL}/cards?page=${page}&limit=9`
       if (searchValue) {
         url += `&name=${searchValue}`
@@ -73,8 +74,8 @@ function Dashboard() {
   const handleCat = cat => setCategory(cat)
   const handleStar = star => setStar(star)
   const handleChange = e => setSearchValue(e.target.value)
-  const handleShowOpenPack =  ()=> setShowOpenPack(!showOpenPack)
-  const handleOpenPack = async(faction)=>{
+  const handleShowOpenPack = () => setShowOpenPack(!showOpenPack)
+  const handleOpenPack = async (faction) => {
     try {
       const res = await api.get(`/cards/packOpening/${faction}`)
       console.log(res)
@@ -82,9 +83,9 @@ function Dashboard() {
       console.log(error)
     }
   }
-  const handleAddToDeck = async (card)=>{
+  const handleAddToDeck = async (card) => {
     try {
-      const res = await api.post("/cards/addToDeck", {cardId:card._id})
+      const res = await api.post("/cards/addToDeck", { cardId: card._id })
       console.log(res)
     } catch (error) {
       console.log(error)
@@ -150,46 +151,61 @@ function Dashboard() {
                   >{type}</button>
                 ))}
               </div>
+
             </div>
-            {selectedType && <div>
-              <div className='row'>
-                <span className='m-auto col-4'>Choose category:</span>
+            <div className='col-8 text-start'>
+              <div className='row mb-3'>
+                <span className='m-auto col-4'>Choose type:</span>
                 <div className='col-8'>
-                  {TYPES[selectedType].map(cat => (
+                  {Object.keys(TYPES).map(type => (
                     <button
-                      onClick={() => handleCat(cat)}
+                      onClick={() => handleType(type)}
                       className='me-2 rounded bg-white border border-dark py-2 px-4 hover-shadow'
 
-                    >{cat}</button>
+                    >{type}</button>
                   ))}
                 </div>
               </div>
-            </div>}
-          </div>
-        </form>
-      </div>
-      <div className="row mb-3">
-        {cards.length && cards.map((card, index) => (
-          <div className="col-4 mb-3" key={index}>
-            <div className="card position-relative">
-              <img src="https://i.imgur.com/a59yxYv.png" alt={card.name} />
-              <div className='w-100 h-100 position-absolute 
+              {selectedType && <div>
+                <div className='row'>
+                  <span className='m-auto col-4'>Choose category:</span>
+                  <div className='col-8'>
+                    {TYPES[selectedType].map(cat => (
+                      <button
+                        onClick={() => handleCat(cat)}
+                        className='me-2 rounded bg-white border border-dark py-2 px-4 hover-shadow'
+
+                      >{cat}</button>
+                    ))}
+                  </div>
+                </div>
+              </div>}
+            </div>
+            </div>
+          </form>
+        </div>
+        <div className="row mb-3">
+          {cards.length && cards.map((card, index) => (
+            <div className="col-4 mb-3" key={index}>
+              <div className="card position-relative">
+                <img src="https://i.imgur.com/a59yxYv.png" alt={card.name} />
+                <div className='w-100 h-100 position-absolute 
                 d-flex justify-content-center align-items-center
                 addBtn
               '
-              >
-                <button className="border-0"
-                  onClick={() => handleAddToDeck(card)}
                 >
-                  <FaPlus className='position' />
-                </button>
+                  <button className="border-0"
+                    onClick={() => handleAddToDeck(card)}
+                  >
+                    <FaPlus className='position' />
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-    </div>
+      </div>
   );
 
 }

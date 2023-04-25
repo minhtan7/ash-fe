@@ -55,7 +55,7 @@ const AuthProvider = ({ children }) => {
         callback()
     }
 
-    const value = { ...user, login, logout }
+    const value = { user, login, logout }
     console.log(value)
     console.log(value.name)
 
