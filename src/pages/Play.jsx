@@ -1,6 +1,6 @@
 
 import React from "react";
-import background from "./resourse/background.jpg";
+import background from "./resourse/playResouce/background.jpg";
 
 const GameMat = () => {
     React.useEffect(() => {
@@ -8,21 +8,23 @@ const GameMat = () => {
         return () => document.body.style.removeProperty("--background-image");
     }, []);
     return (
-        <div className="game-mat">
-            <Title />
-            <div className="resource-counter">0</div>
-            <div className="player">
-                <PlayerSide />
-                <CardRow />
-                <PlayerSide title="Graveyard" />
-            </div>
-            <div className="player">
-                <PlayerSide />
-                <CardRow />
-                <PlayerSide title="Graveyard" />
-            </div>
-            <div className="counter-wrapper">
+        <div className="game-mat-wrapper">
+            <div className="game-mat">
+                <Title />
                 <div className="resource-counter">0</div>
+                <div className="player">
+                    <PlayerSide />
+                    <CardRow />
+                    <PlayerSide title="Graveyard" />
+                </div>
+                <div className="player">
+                    <PlayerSide />
+                    <CardRow />
+                    <PlayerSide title="Graveyard" />
+                </div>
+                <div className="counter-wrapper">
+                    <div className="resource-counter">0</div>
+                </div>
             </div>
         </div>
     );
@@ -33,9 +35,10 @@ const Title = () => (
         style={{
             color: "white",
             position: "absolute",
-            top: 0,
+            top: 30,
             left: "50%",
-            transform: "translateX(-50%)"
+            transform: "translateX(-50%)",
+            fontSize: "50px"
         }}
     >
         Empires Accesion

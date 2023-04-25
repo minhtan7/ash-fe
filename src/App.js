@@ -11,6 +11,7 @@ import Register from './pages/Register';
 import AuthProvider from './context/authContext';
 import Home from "./pages/Home"
 import MainLayout from './component/layout';
+import Play from "./pages/Play"
 import AuthRequire from "./component/AuthRequire"
 import Play from "./pages/Play"
 import Collections from './pages/Collections';
@@ -29,7 +30,7 @@ function App() {
       {/* Wrapping the component tree in the AuthProvider context provider*/}
       <Router>
         <Routes>
-
+          <Route path='/play' element={<Play />} />
           <Route path='/' element={<MainLayout />}>
             <Route path='/play' element={<Play />} />
             <Route path='/' element={<Home />} />
@@ -46,7 +47,6 @@ function App() {
           </Route>
         </Routes>
       </Router>
-
     </AuthProvider>
   );
 }
