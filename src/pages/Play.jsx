@@ -1,4 +1,4 @@
-import "./style/styles.css";
+
 import React from "react";
 import background from "./resourse/background.jpg";
 

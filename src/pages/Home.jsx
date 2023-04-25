@@ -1,10 +1,10 @@
 
-import "../home.css";
-import FireVideo from "../Fire.mp4";
-import CardsSound from "../cards.mp3";
-import SwordSound from "../sword.mp3";
-import CracklingSound from "../Crackling.mp3";
-import KeyIcon from "../key.svg";
+
+import FireVideo from "./resourse/Fire.mp4";//../Fire.mp4
+import CardsSound from "./resourse/cards.mp3";
+import SwordSound from "./resourse/sword.mp3";
+//import CracklingSound from "../Crackling.mp3";
+import KeyIcon from "./resourse/key.svg";
 import { Link } from 'react-router-dom'
 
 const Home = () => {
@@ -16,7 +16,7 @@ const Home = () => {
 
   return (
     <div className="App">
-      <h1>EMPIRES ASCENSION</h1>
+      <h1 className="title">EMPIRES ASCENSION</h1>
       <div className="bg-container">
         <video className="bg" autoPlay muted loop>
           <source src={FireVideo} type="video/mp4" />
