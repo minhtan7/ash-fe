@@ -22,6 +22,10 @@
 body {
   font-family: 'Poppins', sans-serif;
   height: 100vh;
+  background-image: var(--background-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 a {
@@ -407,36 +411,6 @@ home page css files finish */
   font-size: 40px;
   color: rgb(214, 223, 190);
   font-family: "Mantinia", serif;
-}
-
-#dashboard {
-  padding-top: 7%;
-}
-.dashboard-background {
-  background-image: url('./pages/resourse/dashboardResource/dashboardBackground.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
-/* 
-dashboard part */
-
-#dashboard img {
-  max-width: 100%;
-  max-height: 100%;
-  float: center;
-  transition-duration: 0.3s;
-}
-
-#dashboard img:hover {
-  box-shadow: 5px 5px 10px 10px rgb(181, 181, 181);
-  transition-duration: 0.3s;
 }
 
 .card {
