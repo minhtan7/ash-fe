@@ -35,9 +35,9 @@ function Dashboard() {
 
   useEffect(() => {
     const fetchCards = async () => {
-      let url = `${process.env.REACT_APP_BACKEND_URL}/cards?page=${page}&limit=9`
-      if (category) {
-        url += `&category=${category}`
+      let url = `${process.env.REACT_APP_BACKEND_URL}/cards/mycard?page=${page}&limit=9`
+      if(category) {
+        url+= `&category=${category}`
       }
       if (star) {
         url += `&star=${star}`
@@ -46,10 +46,8 @@ function Dashboard() {
         url += `&type=${selectedType}`
       }
       console.log(url)
-      const res = await fetch(url)
-      const data = await res.json()
-      console.log(data)
-      setCards(data.data.cards)
+      const res = await api.get(url)
+      setCards(res.data.data.cards)
     }
     fetchCards()
   }, [page, category, selectedType, star])

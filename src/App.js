@@ -39,9 +39,9 @@ function App() {
             <Route path='/register' element={<Register />} />
             <Route path='/dashboard'
               element={
-                // <AuthRequire>
-                <Dashboard />
-                // </AuthRequire>
+                <AuthRequire>
+                  <Dashboard />
+                </AuthRequire>
               }
             />
           </Route>
