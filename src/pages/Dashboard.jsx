@@ -128,9 +128,9 @@ function Dashboard() {
     }
   }
   console.log(user)
-  const handleRemove = (card)=>{
+  const handleRemove = async(card)=>{
     setCardsInDeck(cardsInDeck.filter(c=> c._id !=card._id))
-
+    await api.post("/cards/addToDeck", { cardId: card._id })
   }
   return (
 
