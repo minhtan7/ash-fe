@@ -10,12 +10,12 @@ import { Link } from 'react-router-dom'
 function Home() {
     const playSound = (soundUrl) => {
         const audio = new Audio(soundUrl);
-        audio.play();
+        // audio.play();
     };
     playSound(CracklingSound);
 
     return (
-        <div className="App">
+        <div className="container">
             <h1 className="home_title"> EMPIRES ASCENSION</h1>
             <div className="main-content">
                 <div className="bg-container">
@@ -24,17 +24,20 @@ function Home() {
                     </video>
                 </div>
                 <div className="button-container">
-                    <Link to='/Play'>
+                    <Link to='/play'>
                         <button className="button button1" onClick={() => playSound(SwordSound)}>
                             PLAY
                         </button>
                     </Link>
-                    <Link to='/Dashboard'>
+                    <Link to='/dashboard'>
                         <button className="button button2" onClick={() => playSound(CardsSound)}>
                             DECKS
                         </button>
                     </Link>
-                    <button className="button button3">PACK OPENING</button>
+                    <Link to='/collection'>
+
+                    <button className="button button3">COLLECTIONS</button>
+                    </Link>
                 </div>
 
             </div>

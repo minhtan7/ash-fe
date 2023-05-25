@@ -13,8 +13,9 @@ import Home from "./pages/Home"
 import MainLayout from './component/layout';
 import Play from "./pages/Play"
 import AuthRequire from "./component/AuthRequire"
-import Play from "./pages/Play"
 import Collections from './pages/Collections';
+import "./index.css"
+import "./pages/index.css"
 
 function App() {
   // Using the useEffect hook to fetch data from the server on component mount
@@ -30,11 +31,11 @@ function App() {
       {/* Wrapping the component tree in the AuthProvider context provider*/}
       <Router>
         <Routes>
-          <Route path='/play' element={<Play />} />
+          {/* <Route path='/play' element={<Play />} /> */}
           <Route path='/' element={<MainLayout />}>
             <Route path='/play' element={<Play />} />
             <Route path='/' element={<Home />} />
-            <Route path='/collections' element={<Collections />} />
+            <Route path='/collection' element={<Collections />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
             <Route path='/dashboard'

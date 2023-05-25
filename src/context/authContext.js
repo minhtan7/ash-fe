@@ -8,30 +8,32 @@ export const authContext = createContext()
 
 const setSession = (accessToken) => {
     if (accessToken) {
-        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("ashToken", accessToken);
         api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
     } else {
-        localStorage.removeItem("accessToken");
+        localStorage.removeItem("ashToken");
         delete api.defaults.headers.common.Authorization;
     }
 };
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [initialize, setInitialize] = useState(false)
 
     useEffect(() => {
         const initialize = async () => {
-            const accessToken = localStorage.getItem("accessToken")
+            const accessToken = localStorage.getItem("ashToken")
             if (accessToken) {
                 setSession(accessToken)
                 const res = await api.get("/users/me")
-                console.log(res)
                 setUser(res.data)
+                setIsAuthenticated(true)
             }
+            setInitialize(true)
         }
         initialize()
     }, [])
-    console.log(user)
     const login = async (formData, callback) => {
         let url = "http://localhost:5000/api/users/login";
         const response = await fetch(url, {
@@ -43,9 +45,9 @@ const AuthProvider = ({ children }) => {
         }
         );
         const data = await response.json()
-        console.log(data)
-        localStorage.setItem("accessToken", data.data.accessToken)
-
+        localStorage.setItem("ashToken", data.data.accessToken)
+        api.defaults.headers.common.Authorization = `Bearer ${data.data.accessToken}`;
+        setIsAuthenticated(true)
         setUser(data.data.user)
         callback()
     }
@@ -53,14 +55,14 @@ const AuthProvider = ({ children }) => {
         setUser(null);
         setSession(null);
         callback()
+        setIsAuthenticated(false)
     }
 
-    const value = { user, login, logout }
+    const value = { user, initialize, isAuthenticated, login, logout }
     console.log(value)
-    console.log(value.name)
 
     return (
-        <authContext.Provider value={value}>
+        <authContext.Provider value={{ ...value }}>
             {children}
         </authContext.Provider>
     )

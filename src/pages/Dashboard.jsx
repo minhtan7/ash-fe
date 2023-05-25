@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+// import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import Modal from 'react-bootstrap/Modal';
 
 import { FaPlus, FaSearch, FaStar } from 'react-icons/fa'
 import axios from 'axios'
 import api from '../apiService'
+
+import GameCard from '../component/GameCard'
 import backgroundDash from "./resourse/dashboardResource/dashboardBackground.jpg";
+import { authContext } from '../context/authContext';
+import { toast } from 'react-toastify';
 
 // const CATEGORIES = ["soldier", "missle", "defense", "resource", "leader"]
 const TYPES = {
@@ -21,49 +28,73 @@ const FACTIONS = {
 }
 
 function Dashboard() {
-
+  const { user } = useContext(authContext)
   const [cards, setCards] = useState([])
   const [page, setPage] = useState(1)
-  const [selectedType, setSelectedType] = useState("")
-  const [category, setCategory] = useState("")
+  const [totalPage, setTotalPage] = useState(1)
+  const [selectedType, setSelectedType] = useState("Depleter")
+  const [category, setCategory] = useState("Soldier")
   const [star, setStar] = useState(0)
   const [searchValue, setSearchValue] = useState("")
   const [searchSubmit, setSearchSubmit] = useState(false)
 
   const [showOpenPack, setShowOpenPack] = useState(false)
 
+  const [show, setShow] = useState(false);
+  const [showDeck, setShowDeck] = useState(false)
+
+  const [cardsInDeck, setCardsInDeck] = useState([])
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
 
   useEffect(() => {
     const fetchCards = async () => {
-      let url = `${process.env.REACT_APP_BACKEND_URL}/cards/mycard?page=${page}&limit=9`
-      if(category) {
-        url+= `&category=${category}`
+      let url = `${process.env.REACT_APP_BACKEND_URL}/cards/mycard?page=${page}&limit=3`
+      if (searchValue) {
+        url += `&name=${searchValue}`
+      } else {
+        if (category) {
+          url += `&category=${category}`
+        }
+        if (selectedType) {
+          url += `&type=${selectedType}`
+        }
       }
       if (star) {
         url += `&star=${star}`
       }
-      if (selectedType) {
-        url += `&type=${selectedType}`
-      }
-      console.log(url)
       const res = await api.get(url)
-      setCards(res.data.data.cards)
+      setCards([...cards, ...res.data.cards])
+      setTotalPage(res.data.totalPages)
     }
     fetchCards()
-  }, [page, category, selectedType, star])
+    console.log(user)
+    setCardsInDeck(user.deck)
+  }, [page])
 
   const handleSubmit = (e) => {
     e.preventDefault()
     const fetchCards = async () => {
-      let url = `${process.env.REACT_APP_BACKEND_URL}/cards?page=${page}&limit=9`
+      let url = `${process.env.REACT_APP_BACKEND_URL}/cards/mycard?page=${page}&limit=3`
       if (searchValue) {
         url += `&name=${searchValue}`
+      } else {
+        if (category) {
+          url += `&category=${category}`
+        }
+        if (selectedType) {
+          url += `&type=${selectedType}`
+        }
       }
-      console.log(url)
-      const res = await fetch(url)
-      const data = await res.json()
-      console.log(data)
-      setCards(data.data.cards)
+      if (star) {
+        url += `&star=${star}`
+      }
+      const res = await api(url)
+      setCards(res.data.cards)
+      setTotalPage(res.data.totalPages)
+      setPage(1)
     }
     fetchCards()
   }
@@ -76,7 +107,7 @@ function Dashboard() {
   const handleOpenPack = async (faction) => {
     try {
       const res = await api.get(`/cards/packOpening/${faction}`)
-      console.log(res)
+      setShow(true)
     } catch (error) {
       console.log(error)
     }
@@ -84,15 +115,28 @@ function Dashboard() {
   const handleAddToDeck = async (card) => {
     try {
       const res = await api.post("/cards/addToDeck", { cardId: card._id })
-      console.log(res)
+      toast.success(`add card ${card.name} to your deck`)
+      setCardsInDeck(res.data.deck)
     } catch (error) {
       console.log(error)
     }
   }
+
+  const loadFunc = () => {
+    if (page < totalPage) {
+      setPage(page + 1)
+    }
+  }
+  console.log(user)
+  const handleRemove = (card)=>{
+    setCardsInDeck(cardsInDeck.filter(c=> c._id !=card._id))
+
+  }
   return (
+
     <div id="dashboard" className="container">
       <h1 className='mb-5'>
-        <center> Card/Deck Management </center>
+        <center className='dash_title'> Card/Deck Management ({user.collections.length})</center>
       </h1>
       <div>
         <button
@@ -118,81 +162,17 @@ function Dashboard() {
         <form onSubmit={handleSubmit} className='row '>
           <div className='col-3 row flex-row me-3'>
             {[1, 2, 3].map(s => (
-              <span
+              <button
                 onClick={() => handleStar(s)}
-                className='col-3 me-2 d-flex flex-row justify-content-center align-items-center star'
-                style={{ color: star === s ? "#fd7e14" : "black" }}
+                className='col-3 me-2 d-flex flex-row justify-content-center align-items-center star
+                rounded-circle border
+                '
+                style={{ color: star === s ? "#fd7e14" : "blue", height: "3rem", width: "3rem" }}
+                type="submit"
               >
                 {s} <FaStar className='ms-1' />
-              </span>
-            ))}
-            <div className='position-relative' style={{ height: "fit-content" }}>
-              <input placeholder='search'
-                className='py-2 px-3'
-                onChange={handleChange}
-              />
-              <FaSearch
-                onClick={() => setSearchSubmit(!searchSubmit)}
-                className='position-absolute top-50 end-0 translate-middle' />
-            </div>
-
-          </div>
-          <div className='col-8 text-start'>
-            <div className='row mb-3'>
-              <span className='m-auto col-4'>Choose type:</span>
-              <div className='col-8'>
-                {Object.keys(TYPES).map(type => (
-                  <button
-                    onClick={() => handleType(type)}
-                    className='me-2 rounded bg-white border border-dark py-2 px-4 hover-shadow'
-
-                  >{type}</button>
-                ))}
-              </div>
-
-  React.useEffect(() => {
-    document.body.style.setProperty("--background-image", `url(${backgroundDash})`);
-    return () => document.body.style.removeProperty("--background-image");
-  }, []);
-
-  return (
-
-    <div id="dashboard" className="container">
-      <h1 className='mb-5'>
-        <center className='dash_title'> Card/Deck Management </center>
-      </h1>
-      <div>
-        <button
-          className='me-2 mb-3 rounded bg-white border border-dark py-2 px-4 hover-shadow'
-          onClick={handleShowOpenPack}
-        >
-          Open pack
-        </button>
-        {showOpenPack &&
-          <div>
-            {Object.keys(FACTIONS).map(faction => (
-              <button style={{ color: FACTIONS[faction], border: `1px solid ${FACTIONS[faction]}` }}
-                className='py-1 px-2  rounded bg-light me-2'
-                onClick={() => handleOpenPack(faction)}
-              >
-                {faction}
               </button>
             ))}
-          </div>}
-      </div>
-      <hr />
-      <div className='mb-4'>
-        <form onSubmit={handleSubmit} className='row '>
-          <div className='col-3 row flex-row me-3'>
-            {[1, 2, 3].map(s => (
-              <span
-                onClick={() => handleStar(s)}
-                className='col-3 me-2 d-flex flex-row justify-content-center align-items-center star'
-                style={{ color: star === s ? "#fd7e14" : "blue" }}
-              >
-                {s} <FaStar className='ms-1' />
-              </span>
-            ))}
             <div className='position-relative' style={{ height: "fit-content" }}>
               <input placeholder='search'
                 className='py-2 px-3'
@@ -212,7 +192,7 @@ function Dashboard() {
                   <button
                     onClick={() => handleType(type)}
                     className='me-2 rounded bg-white border border-dark py-2 px-4 hover-shadow'
-
+                    type='submit'
                   >{type}</button>
                 ))}
               </div>
@@ -225,7 +205,7 @@ function Dashboard() {
                     <button
                       onClick={() => handleCat(cat)}
                       className='me-2 rounded bg-white border border-dark py-2 px-4 hover-shadow'
-
+                      type='submit'
                     >{cat}</button>
                   ))}
                 </div>
@@ -234,27 +214,62 @@ function Dashboard() {
           </div>
         </form>
       </div>
-      <div className="row mb-3">
+      {/* <div className="row mb-3">
         {cards.length && cards.map((card, index) => (
-          <div className="col-4 mb-3" key={index}>
-            <div className="card position-relative">
-              <img src="https://i.imgur.com/a59yxYv.png" alt={card.name} />
-              <div className='w-100 h-100 position-absolute 
-                d-flex justify-content-center align-items-center
-                addBtn
-              '
-              >
-                <button className="border-0"
-                  onClick={() => handleAddToDeck(card)}
-                >
-                  <FaPlus className='position' />
-                </button>
-              </div>
+          <GameCard card={card} index={index} handleAddToDeck={handleAddToDeck} />
+        ))}
+      </div> */}
+
+      <InfiniteScroll
+        dataLength={cards.length} //This is important field to render the next data
+        next={loadFunc}
+        hasMore={page < totalPage}
+        loader={<h4>Loading...</h4>}
+        endMessage={
+          <p style={{ textAlign: 'center' }}>
+            <b>Yay! You have seen it all</b>
+          </p>
+        }
+
+      >
+        <div className="row mb-3">
+          {cards.length && cards.map((card, index) => (
+            <GameCard card={card.cards} index={index} handleAddToDeck={handleAddToDeck} />
+          ))}
+
+        </div>
+      </InfiniteScroll>
+
+      <button
+        className='btn-deck position-fixed top-50 border rounded-circle '
+        style={{ height: '5rem', width: "5rem" , right :"5rem"}}
+        onClick={() => setShowDeck(true)}
+      >
+        Deck!
+      </button>
+
+      <Modal size='xl' show={showDeck} onHide={() => setShowDeck(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Your Deck</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="container">
+            <div className="row mb-3">
+              {cardsInDeck.length && cardsInDeck.map((card, index) => (
+                <GameCard card={card} type="remove" index={index} handleRemove={handleRemove} />
+              ))}
             </div>
           </div>
-        ))}
-      </div>
 
+
+        </Modal.Body>
+      </Modal>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Pack Opening</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Congratulation! You get 4 new cards!</Modal.Body>
+      </Modal>
     </div>
 
   );

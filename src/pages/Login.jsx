@@ -21,7 +21,9 @@ function Login() {
     }
     const onSubmit = async (e) => {
         e.preventDefault();
-        login(formData, ()=>navigate("/dashboard"))
+        login(formData, ()=>{
+            navigate("/dashboard")
+        })
     }
 
     return <div className="container">

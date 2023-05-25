@@ -55,14 +55,14 @@ h3 {
   text-align: center;
 }
 
-.header {
+/* .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 0;
   border-bottom: 1px solid #e6e6e6;
   margin-bottom: 60px;
-}
+} */
 
 .header ul {
   display: flex;
@@ -274,17 +274,26 @@ video {
     color: lightgrey;
   }
   
-  .bg {
+  /* .bg {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    min-width: 100%;
-    min-height: 100%;
+    width: 100vw;
     width: auto;
-    height: auto;
     z-index: -12;
-  }
+  } */
+  .bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100vh;
+  width: auto;
+  height: auto;
+  z-index: -100;
+  transform: translate(-50%, -50%);
+}
   
   .button1 {
     font-family: "Mantinia", serif;
@@ -375,16 +384,15 @@ body {
   font-family: Arial, sans-serif;
   text-align: center;
   background-color: #222;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  /* position: relative; */
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: center; */
   
   min-height: 100vh;
   margin: 0;
-  overflow: hidden;
 }
-body::before {
+/* body::before {
   content: "";
   position: absolute;
   top: 0;
@@ -398,7 +406,7 @@ body::before {
   background-attachment: fixed;
   opacity: 0.5;
   z-index: -1;
-}
+} */
 .row {
   display: flex;
   justify-content: center;

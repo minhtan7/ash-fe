@@ -4,6 +4,8 @@ import cardData from './cardData.json'
 import { FaPlus, FaSearch, FaStar } from 'react-icons/fa'
 import axios from 'axios'
 import api from '../apiService'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import GameCard from '../component/GameCard'
 
 // const CATEGORIES = ["soldier", "missle", "defense", "resource", "leader"]
 const TYPES = {
@@ -23,6 +25,7 @@ const FACTIONS = {
 function Collections() {
   const [cards, setCards] = useState([])
   const [page, setPage] = useState(1)
+  const [totalPage, setTotalPage] = useState(1)
   const [selectedType, setSelectedType] = useState("")
   const [category, setCategory] = useState("")
   const [star, setStar] = useState(0)
@@ -35,36 +38,56 @@ function Collections() {
   useEffect(() => {
     const fetchCards = async () => {
       let url = `${process.env.REACT_APP_BACKEND_URL}/cards?page=${page}&limit=9`
-      if (category) {
-        url += `&category=${category}`
+      // if (category) {
+      //   url += `&category=${category}`
+      // }
+      // if (star) {
+      //   url += `&star=${star}`
+      // }
+      // if (selectedType) {
+      //   url += `&type=${selectedType}`
+      // }
+      if (searchValue) {
+        url += `&name=${searchValue}`
+      } else {
+        if (category) {
+          url += `&category=${category}`
+        }
+        if (selectedType) {
+          url += `&type=${selectedType}`
+        }
       }
       if (star) {
         url += `&star=${star}`
       }
-      if (selectedType) {
-        url += `&type=${selectedType}`
-      }
-      console.log(url)
-      const res = await fetch(url)
-      const data = await res.json()
-      console.log(data)
-      setCards(data.data.cards)
+      const res = await api.get(url)
+      setCards([...cards, ...res.data.cards])
+      setTotalPage(res.data.totalPages)
     }
     fetchCards()
-  }, [page, category, selectedType, star])
+  }, [page])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     const fetchCards = async () => {
       let url = `${process.env.REACT_APP_BACKEND_URL}/cards?page=${page}&limit=9`
-      if (searchValue) {
+     if (searchValue) {
         url += `&name=${searchValue}`
+      } else {
+        if (category) {
+          url += `&category=${category}`
+        }
+        if (selectedType) {
+          url += `&type=${selectedType}`
+        }
       }
-      console.log(url)
-      const res = await fetch(url)
-      const data = await res.json()
-      console.log(data)
-      setCards(data.data.cards)
+      if (star) {
+        url += `&star=${star}`
+      }
+    const res = await api(url)
+      setCards(res.data.cards)
+      setTotalPage(res.data.totalPages)
+      setPage(1)
     }
     fetchCards()
   }
@@ -73,27 +96,18 @@ function Collections() {
   const handleCat = cat => setCategory(cat)
   const handleStar = star => setStar(star)
   const handleChange = e => setSearchValue(e.target.value)
-  const handleShowOpenPack = () => setShowOpenPack(!showOpenPack)
-  const handleOpenPack = async (faction) => {
-    try {
-      const res = await api.get(`/cards/packOpening/${faction}`)
-      console.log(res)
-    } catch (error) {
-      console.log(error)
+  
+ 
+  const loadFunc = () => {
+    if (page < totalPage) {
+      setPage(page + 1)
     }
   }
-  const handleAddToDeck = async (card) => {
-    try {
-      const res = await api.post("/cards/addToDeck", { cardId: card._id })
-      console.log(res)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  console.log(cards)
   return (
     <div id="dashboard" className="container">
       <h1 className='mb-2'>
-        <center> Card/Deck Management </center>
+        <center> Collections </center>
       </h1>
       <hr className='mb-5' />
       <div className='mb-4'>
@@ -150,24 +164,25 @@ function Collections() {
         </form>
       </div>
       <div className="row mb-3">
-        {cards.length && cards.map((card, index) => (
-          <div className="col-4 mb-3" key={index}>
-            <div className="card position-relative">
-              <img src="https://i.imgur.com/a59yxYv.png" alt={card.name} />
-              <div className='w-100 h-100 position-absolute 
-                d-flex justify-content-center align-items-center
-                addBtn
-              '
-              >
-                <button className="border-0"
-                  onClick={() => handleAddToDeck(card)}
-                >
-                  <FaPlus className='position' />
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
+        <InfiniteScroll
+        dataLength={cards.length} 
+        next={loadFunc}
+        hasMore={page < totalPage}
+        loader={<h4>Loading...</h4>}
+        endMessage={
+          <p style={{ textAlign: 'center' }}>
+            <b>Yay! You have seen it all</b>
+          </p>
+        }
+
+      >
+        <div className="row mb-3">
+          {cards.length && cards.map((card, index) => (
+            <GameCard card={card} index={index}  />
+          ))}
+
+        </div>
+      </InfiniteScroll>
       </div>
 
     </div>

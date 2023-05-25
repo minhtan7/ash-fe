@@ -5,8 +5,10 @@ import { authContext } from "../context/authContext";
 const AuthRequire = ({ children }) => {
     const auth = useContext(authContext);
     const location = useLocation();
-    console.log("jere", auth)
-    if (!auth.name) {
+    console.log(auth)
+    if (!auth.initialize) {
+        return <h1>loading</h1>;
+    } else if (!auth.isAuthenticated) {
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
     return children;

@@ -11,8 +11,9 @@ function Header() {
     }
 
     return (
+        <header id="header" >
         <div className='container'>
-            <div className='header'>
+            <div className='header '>
                 <div className='logo'>
                     <Link to='/'>GamePage</Link>
                 </div>
@@ -41,6 +42,8 @@ function Header() {
                 </ul>
             </div>
         </div>
+
+        </header>
     )
 }
 
