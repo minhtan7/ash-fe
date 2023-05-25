@@ -5,7 +5,7 @@ const GameCard = ({ type, card, index, handleAddToDeck, handleRemove }) => {
     return (
         <div className="col-4 mb-3" key={index}>
             <div className="card position-relative">
-                <img src={`http://localhost:3000/images/${card.imageUrl}`} alt={card.name} />
+                <img src={`https://empire-ascension.netlify.app/images/${card.imageUrl}`} alt={card.name} />
                 <div className='w-100 h-100 position-absolute 
                 d-flex justify-content-center align-items-center
                 addBtn
