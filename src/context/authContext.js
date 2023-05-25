@@ -35,7 +35,7 @@ const AuthProvider = ({ children }) => {
         initialize()
     }, [])
     const login = async (formData, callback) => {
-        let url = "http://localhost:5000/api/users/login";
+        let url = `${process.env.REACT_APP_BACKEND_URL}/users/login`;
         const response = await fetch(url, {
             method: "POST",
             headers: {

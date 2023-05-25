@@ -20,7 +20,7 @@ import "./pages/index.css"
 function App() {
   // Using the useEffect hook to fetch data from the server on component mount
   useEffect(() => {
-    fetch("http://localhost:5000/api/cards")
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/cards`)
   })
   // Using the useEffect hook with an empty dependency array to run code only once on component mount
   useEffect(() => {
