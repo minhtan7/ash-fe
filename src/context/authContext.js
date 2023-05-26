@@ -45,7 +45,7 @@ const AuthProvider = ({ children }) => {
         }
         );
         const data = await response.json()
-        localStorage.setItem("ashToken", data.data.accessToken)
+        localStorage.setItem("ashToken", data.accessToken)
         api.defaults.headers.common.Authorization = `Bearer ${data.data.accessToken}`;
         setIsAuthenticated(true)
         setUser(data.data.user)
@@ -57,8 +57,25 @@ const AuthProvider = ({ children }) => {
         callback()
         setIsAuthenticated(false)
     }
+    const register = async (formData, callback) => {
+        let url = `${process.env.REACT_APP_BACKEND_URL}/users/register`;
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        }
+        );
+        const data = await response.json()
+        localStorage.setItem("ashToken", data.data.accessToken)
+        api.defaults.headers.common.Authorization = `Bearer ${data.data.accessToken}`;
+        setIsAuthenticated(true)
+        setUser(data.data.user)
+        callback()
+    }
 
-    const value = { user, initialize, isAuthenticated, login, logout }
+    const value = { user, initialize, isAuthenticated, login, logout, register }
     console.log(value)
 
     return (

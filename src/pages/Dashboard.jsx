@@ -77,7 +77,7 @@ function Dashboard() {
   const handleSubmit = (e) => {
     e.preventDefault()
     const fetchCards = async () => {
-      let url = `${process.env.REACT_APP_BACKEND_URL}/cards/mycard?page=${page}&limit=3`
+      let url = `${process.env.REACT_APP_BACKEND_URL}/cards/mycard?page=${page}&limit=6`
       if (searchValue) {
         url += `&name=${searchValue}`
       } else {

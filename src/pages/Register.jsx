@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { FaUser } from "react-icons/fa";
+import { authContext } from "../context/authContext";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+    const {register} = useContext(authContext)
     // Define the initial state using the useState hook
     const [formData, setFormData] = useState({
         name: '',
@@ -18,9 +21,12 @@ function Register() {
             [e.target.name]: e.target.value,
         }))
     }
+    const navigate = useNavigate()
     // Define the onSubmit event handler to handle form submission
     const onSubmit = (e) => {
         e.preventDefault()
+        register(formData, ()=> navigate("/dashboard"))
+
     }
     // Render the Register component
     return <div className="container">
@@ -32,8 +38,7 @@ function Register() {
         </section>
 
         <section className="form">
-            <form onSubmit={onSubmit}></form>
-            <form >
+            <form onSubmit={onSubmit}>
                 <div className="form-group">
                     <input type="text" className="form-control" id="name"
                         name="name" value={name} placeholder='Enter your name'
